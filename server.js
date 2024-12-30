@@ -59,7 +59,7 @@ cron.schedule('* * * * *', async () => {
                 const startTime = slot.slots.split(' - ')[0];
                 const slotTime = new Date(`${appointment.date}T${startTime}:00`);
                 const timeDifference = currentTime - slotTime;
-                const gracePeriod = 2 * 60 * 1000;
+                const gracePeriod = 15 * 60 * 1000;
                 console.log(`Processing slot: ${slot.slots}`);
                 console.log('Current Time:', currentTime);
                 console.log('Slot Time:', slotTime);
