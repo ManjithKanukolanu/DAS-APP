@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Appointment System</title>
+    <link rel="stylesheet" href="/css/schedule.css">
+</head>
+<body>
+    <h1>Doctor <%= doctor.name %> Today's Available Slots </h1>
+    <% availableDoctors.forEach(d => { %>
+    <% d.workingHours.forEach(hour => { %>
+    <% if (hour.slots && hour.slots.length > 0) { %>
+    <% hour.slots.forEach(slot => { %>
+    <div class="slot-card">
+        <div class="slot-time">
+            <label><%= slot %></label>
+        </div>
+        <div class="button-container">
+            <form action="/patient/selectSlot" method="POST">
+                <input type="hidden" name="doctorId" value="<%= doctor._id %>">
+                <input type="hidden" name="patientId" value="<%= patient._id %>">
+                <input type="hidden" name="slotTime" value="<%= slot %>">
+                <input type="hidden" name="prevslot" value= "<%= slotToRemove %>">
+                <button type="submit" class="book-btn">Book Now</button>
+            </form>
+        </div>
+    </div>
+    <% }) %>
+    <% } else { %>
+            <p>No available slots today.</p>
+    <% } %>
+    <% }) %>
+    <% }) %>
+    <a href="/patient/profile?id=<%= patient._id %>">Not Select</a>
+</body>
+</html>

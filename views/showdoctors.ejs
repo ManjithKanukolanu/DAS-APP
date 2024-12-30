@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Appointment System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="/css/showdoc.css">
+</head>
+<body>
+    <a class ="user" href="/patient/profile?id=<%= patient._id %>">Profile <i class="fas fa-user user-icon"></i></a>
+    <% if (availableDoctors.length > 0)
+    { %>
+    <% availableDoctors.forEach(doctor =>{%>
+    <div class="container">
+        <div class="header">Doctor Details</div>
+        <div>
+            <label>Name: </label> <span><%= doctor.name %></span>
+        </div>
+        <div class="photo">
+             <% if(doctor.gender === "male") {%>
+                       
+                      <img src="/img/male-doctor.png">
+             <% }
+             else{%>
+                      <img src="/img/female-doctor.png">
+             <%}%>
+        </div>
+        <div>
+            <label>Specialization: </label> <span><%= doctor.specialization %></span>
+        </div>
+        <div>
+            <label>Fee: </label> <span><%= doctor.consultationFee %></span>
+        </div>
+        <div>
+            <a href="/patient/details?id=<%= doctor._id %>&Id=<%= patient._id %>">More Details <i class="fas fa-angle-double-right"></i></a>
+        </div>
+    </div>
+    <%})%>
+    <%} else {%>
+        <div class="container">
+            <div class="header">No Doctors Available</div>
+            <p>Currently, there are no doctors available for appointment. Please check back later.</p>
+        </div>
+    <%}%>
+</body>
+</html>
+

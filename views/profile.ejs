@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Appointment System</title>
+    <link rel="stylesheet" href="/css/profile.css">
+</head>
+<body>
+    <div class="personal">
+        <label>Patient Details: </label>
+        <label>Name:</label>
+        <h1><%= patient.name %></h1>
+    </div>
+
+    <% doctordetails.forEach((d) => { %>
+        <% d.workingHours.forEach((w) => { %>
+            <div class="personal">
+                <form method="post" action="">
+                    <label>Doctor Name:</label>
+                    <h1><%= d.name %></h1>
+                    <label>Slot:</label>
+                    <h1><%= w.slot %></h1>
+                    <%
+                    const startTimeString = w.slot.split('-')[0].trim();
+                    const [hours, minutes] = startTimeString.split(':').map(Number);
+                    const slotStartTime = new Date();
+                    slotStartTime.setHours(hours, minutes, 0, 0);
+                    const currentTime = new Date();
+                    const graceTime = 2 * 60 * 1000;
+                    const slotEndTime = new Date(slotStartTime.getTime() + graceTime);
+                    if (w.status === 'Booked' && currentTime >= slotStartTime && currentTime <= slotEndTime) { %>
+                        <a class="btn1" href="/patient/attend?id=<%= patient._id %>&Id=<%= d.doctorid %>&slot=<%= w.slot %>">Attend</a>
+                    <% } else if (w.status === 'No-show') { %>
+                        <a class="btn2" href="/patient/reschedule?id=<%= patient._id %>&Id=<%= d.doctorid %>&slot=<%= w.slot %>">Reschedule</a>
+                    <% } %>
+                </form>
+            </div>
+        <% }) %>
+    <% }) %>
+</body>
+</html>

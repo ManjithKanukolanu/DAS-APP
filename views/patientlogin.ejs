@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Appointment System</title>
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body class="hello">
+    <div class="login">
+    <h1>Patient Login</h1>
+    <form method="POST" action="/patient/see" class="login-form">
+        <label>Email</label>
+        <input type="text" name="email" class="input-field" required>
+        <label>Password</label>
+        <input type="text" name="password" class="input-field" required>
+        <span class="signup-text">Doesn't have an account? <a href="/patient/signup">Signup</a></span>
+        <button type="submit" class="submit-btn">Submit</button>
+    </form>   
+    </div> 
+</body>
+</html>
