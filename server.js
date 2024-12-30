@@ -85,7 +85,7 @@ Please contact us to reschedule at your earliest convenience.
 You can:
             - Reply to this email.
             - Visit our rescheduling portal at 
-                www.dasapp.com/reschedule to choose a new time slot.
+                    https://das-app-9b93.onrender.com to choose a new time slot.
 
 We look forward to seeing you soon.
 
