@@ -29,45 +29,52 @@
         <a href="/doctor/end" class="green-tab">End of Day</a>
     </div>
     <script>
-              function validateSlot() {
-                     const s = document.getElementById('startTime')
-                     const e = document.getElementById('endTime')
-                     const startTime = document.getElementById('startTime').value;
-                     const endTime = document.getElementById('endTime').value;
-                     const errorMessage = document.getElementById('errorMessage');
-                     const [startHours, startMinutes] = startTime.split(':').map(Number);
-                     const [endHours, endMinutes] = endTime.split(':').map(Number);
-                     const currenttime = new Date()
-                     const startDate = new Date()
-                     startDate.setHours(startHours, startMinutes, 0, 0)
-                     const endDate = new Date()
-                     endDate.setHours(endHours, endMinutes, 0, 0)
-                     if (currenttime >= startDate)
-                     {
-                        correcttime.textContent = 'Please Choose Future Time.'
-                        correcttime.style.display = 'block'
-                        setTimeout(() => {
-                            correcttime.style.display = 'none'
-                            slotsForm.reset()
-                        }, 3000)
-                        return false
-                     }
-                     const startTotalMinutes = startHours * 60 + startMinutes
-                     const endTotalMinutes = endHours * 60 + endMinutes
-                     if (endTotalMinutes < startTotalMinutes) {
-                           endTotalMinutes += 24 * 60
-                    }
-                     const differenceInMinutes = endTotalMinutes - startTotalMinutes
-                     if (differenceInMinutes !== 60) {
-                         errorMessage.textContent = 'Each slot must be exactly 1 hour long.'
-                         errorMessage.style.display = 'block'
-                         setTimeout(() => {
-                            errorMessage.style.display = 'none'
-                            slotsForm.reset()
-                        }, 3000)
-                         return false
-                    }
-                    return true; 
+    function validateSlot() {
+        const slotsForm = document.getElementById('slotsForm');
+        const correcttime = document.getElementById('correcttime');
+        const errorMessage = document.getElementById('errorMessage');
+
+        const startTime = document.getElementById('startTime').value;
+        const endTime = document.getElementById('endTime').value;
+
+        if (!startTime || !endTime) {
+            errorMessage.textContent = 'Start Time and End Time are required.';
+            errorMessage.style.display = 'block';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 3000);
+            return false;
+        }
+
+        const [startHours, startMinutes] = startTime.split(':').map(Number);
+        const [endHours, endMinutes] = endTime.split(':').map(Number);
+
+        const now = new Date();
+        const startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), startHours, startMinutes);
+        const endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), endHours, endMinutes);
+
+        if (startDate <= now) {
+            correcttime.textContent = 'Please choose a future time.';
+            correcttime.style.display = 'block';
+            setTimeout(() => {
+                correcttime.style.display = 'none';
+                slotsForm.reset();
+            }, 3000);
+            return false;
+        }
+
+        const differenceInMinutes = (endDate - startDate) / (1000 * 60);
+
+        if (differenceInMinutes !== 60) {
+            errorMessage.textContent = 'Each slot must be exactly 1 hour long.';
+            errorMessage.style.display = 'block';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+                slotsForm.reset();
+            }, 3000);
+            return false;
+        }
+        return true
     }
     </script>
 </body>
