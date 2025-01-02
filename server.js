@@ -58,24 +58,24 @@ cron.schedule('* * * * *', async () => {
         console.log(localTime)
         for (const appointment of appointments) {
             for (const slot of appointment.workingHours) {
-                const startTime = slot.slots.split(' - ')[0];
-                const slotTime = new Date(`${appointment.date}T${startTime}:00`);
-                const timeDifference = localTime - slotTime;
-                const gracePeriod = 15 * 60 * 1000;
-                console.log(`Processing slot: ${slot.slots}`);
-                console.log('Current Time:', currentTime);
-                console.log('Slot Time:', slotTime);
-                console.log('Time Difference (ms):', timeDifference);
-                console.log('Grace Period (ms):', gracePeriod);
+                const startTime = slot.slots.split(' - ')[0]
+                const slotTime = new Date(`${appointment.date}T${startTime}:00`)
+                const timeDifference = localTime - slotTime
+                const gracePeriod = 3 * 60 * 1000
+                console.log(`Processing slot: ${slot.slots}`)
+                console.log('Current Time:', currentTime)
+                console.log('Slot Time:', slotTime)
+                console.log('Time Difference (ms):', timeDifference)
+                console.log('Grace Period (ms):', gracePeriod)
                 if (timeDifference > gracePeriod) {
                     slot.status = 'No-show'
-                    const patient = await Patient.findById(appointment.patientid);
-                    const doctor = await Doctor.findById(appointment.doctorid);
+                    const patient = await Patient.findById(appointment.patientid)
+                    const doctor = await Doctor.findById(appointment.doctorid)
                     if (!patient) {
-                        console.error(`Patient not found for ID: ${appointment.patientid}`);
+                        console.error(`Patient not found for ID: ${appointment.patientid}`)
                         continue;
                     }
-                    const subject = 'Dsa App Appointment Missed Notification';
+                    const subject = 'Dsa App Appointment Missed Notification'
                     const text = `
 Dear ${patient.name},
 
@@ -94,8 +94,8 @@ We look forward to seeing you soon.
 Best regards,  
 Your Das App
 `;
-                    console.log(`Sending email to: ${patient.email}`);
-                    await appointment.save();
+                    console.log(`Sending email to: ${patient.email}`)
+                    await appointment.save()
                     await sendEmail(patient.email, subject, text)
                 }
             }
