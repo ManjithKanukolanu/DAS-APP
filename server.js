@@ -54,12 +54,14 @@ cron.schedule('* * * * *', async () => {
         })
         console.log(`Found ${appointments.length} appointments.`)
         const currentTime = new Date()
-        console.log('Current Time:', currentTime);
+        const moment = require('moment-timezone')
+        const localTime = moment(currentTime).tz('Asia/Kolkata').toDate()
+        console.log('Current Time:', localTime)
         for (const appointment of appointments) {
             for (const slot of appointment.workingHours) {
                 const startTime = slot.slots.split(' - ')[0];
                 const slotTime = new Date(`${appointment.date}T${startTime}:00`);
-                const timeDifference = currentTime - slotTime;
+                const timeDifference = localTime - slotTime;
                 const gracePeriod = 15 * 60 * 1000;
                 console.log(`Processing slot: ${slot.slots}`);
                 console.log('Current Time:', currentTime);

@@ -26,10 +26,12 @@
                     const slotStartTime = new Date()
                     slotStartTime.setHours(hours, minutes, 0, 0)
                     const currentTime = new Date()
+                    const moment = require('moment-timezone')
+                    const localTime = moment(currentTime).tz('Asia/Kolkata').toDate()
                     const graceTime = 15 * 60 * 1000
                     const slotEndTime = new Date(slotStartTime.getTime() + graceTime)
                     %>
-                    <% if (w.status === 'Booked' && currentTime >= slotStartTime && currentTime <= slotEndTime) { %>
+                    <% if (w.status === 'Booked' && localTime >= slotStartTime && localTime <= slotEndTime) { %>
                         <a class="btn1" style="padding: 10px; background: rgb(34, 209, 244); color: white; text-decoration: none;" href="/patient/attend?id=<%= patient._id %>&Id=<%= d.doctorid %>&slot=<%= w.slot %>">Attend</a>
                     <% } else if (w.status === 'No-show') { %>
                         <a class="btn2" style="padding: 10px; background: rgb(105, 209, 15); color: white; text-decoration: none;" href="/patient/reschedule?id=<%= patient._id %>&Id=<%= d.doctorid %>&slot=<%= w.slot %>">Reschedule</a>
