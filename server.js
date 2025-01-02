@@ -18,7 +18,6 @@ const Patient =  require('./models/patient')
 const Doctor = require('./models/doctor')
 const Appointment = require('./models/appointment')
 const cron = require('node-cron')
-const moment = require('moment-timezone')
 const nodemailer = require('nodemailer')
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -54,7 +53,8 @@ cron.schedule('* * * * *', async () => {
             'workingHours.status': 'Booked'
         })
         console.log(`Found ${appointments.length} appointments.`)
-        const currentTime = moment().tz('Your-Timezone')
+        const currentTime = new Date()
+        console.log('Current Time:', currentTime);
         for (const appointment of appointments) {
             for (const slot of appointment.workingHours) {
                 const startTime = slot.slots.split(' - ')[0];
