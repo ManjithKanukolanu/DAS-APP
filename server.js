@@ -61,7 +61,7 @@ cron.schedule('* * * * *', async () => {
                 const startTime = slot.slots.split(' - ')[0]
                 const slotTime = new Date(`${appointment.date}T${startTime}:00`)
                 const timeDifference = localTime - slotTime
-                const gracePeriod = 3 * 60 * 1000
+                const gracePeriod = 15 * 60 * 1000
                 console.log(`Processing slot: ${slot.slots}`)
                 console.log('Current Time:', currentTime)
                 console.log('Slot Time:', slotTime)
@@ -87,7 +87,7 @@ Please contact us to reschedule at your earliest convenience.
 You can:
             - Reply to this email.
             - Visit our rescheduling portal at 
-                    https://das-app-9b93.onrender.com to choose a new time slot.
+                    https://das-app-u50t.onrender.com to choose a new time slot.
 
 We look forward to seeing you soon.
 
