@@ -54,9 +54,8 @@ cron.schedule('* * * * *', async () => {
         })
         console.log(`Found ${appointments.length} appointments.`)
         const currentTime = new Date()
-        const moment = require('moment-timezone')
-        const localTime = moment(currentTime).tz('Asia/Kolkata').toDate()
-        console.log('Current Time:', localTime)
+        const localTime = new Date(currentTime.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }))
+        console.log(localTime)
         for (const appointment of appointments) {
             for (const slot of appointment.workingHours) {
                 const startTime = slot.slots.split(' - ')[0];
