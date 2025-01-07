@@ -121,8 +121,8 @@ router.get('/details',async (req,res)=>{
                 return true
             })
             workingHour.slots = updateSlots
-            await doctors.save()
         })
+        await doctors.save()
     })
     res.render('doctorslots',{doctor,availableDoctors,patient})
     }
@@ -186,8 +186,8 @@ router.post('/book', async (req, res) => {
                     return true
                 })
                 workingHour.slots = updateSlots
-                await doctors.save()
             })
+            await doctors.save()
         })
         res.render('showdoctors', { availableDoctors, patient })
     } catch (err) {
@@ -242,22 +242,7 @@ router.get('/attend',async (req,res)=>{
         return hour.slots.trim() !== s
     })    
     await appointment.save()
-    const appointments = await Appointment.find({patientid: patientId,date: today}).exec()
-        const doctordetails = await Promise.all(appointments.map(async (appointment)=>{
-                  const doctor = await Doctor.findById(appointment.doctorid)
-                  const slot = appointment.workingHours.map(hour=>hour.slots)
-                  const status = appointment.workingHours.map(s=>s.status)
-                  const result = slot.map((s, index) => ({
-                    slot: s,
-                    status: status[index]
-                  }))
-                  return {
-                     doctorid: doctor._id,
-                     name: doctor.name,
-                     workingHours: result
-                  }
-        }))
-        res.redirect(`/patient/profile?id=${patient._id}`);
+    res.redirect(`/patient/profile?id=${patient._id}`);
    }
    catch(err)
    {
@@ -291,8 +276,8 @@ router.get('/reschedule', async (req, res) => {
                     return true
                 })
                     workingHour.slots = updateSlots
-                    await doctors.save()
             })
+            await doctors.save()
         })
         res.render('reschedule', { availableDoctors,doctor,patient,slotToRemove});
     } 
