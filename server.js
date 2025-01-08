@@ -53,17 +53,17 @@ cron.schedule('* * * * *', async () => {
             'workingHours.status': 'Booked'
         })
         console.log(`Found ${appointments.length} appointments.`)
-        const currentTime = new Date()
-        const localTime = new Date(currentTime.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }))
-        console.log(localTime)
+        const { DateTime } = require('luxon');
+        const localTime = DateTime.local();
+        console.log('Local Time:', localTime)
         for (const appointment of appointments) {
             for (const slot of appointment.workingHours) {
                 const startTime = slot.slots.split(' - ')[0]
-                const slotTime = new Date(`${appointment.date}T${startTime}:00`)
-                const timeDifference = localTime - slotTime
-                const gracePeriod = 15 * 60 * 1000
+                const slotTime = DateTime.fromISO(`${appointment.date}T${startTime}:00`, { zone: 'Asia/Kolkata' })
+                console.log(slotTime)
+                const timeDifference = localTime.toMillis() - slotTime.toMillis();
+                const gracePeriod = 1 * 60 * 1000
                 console.log(`Processing slot: ${slot.slots}`)
-                console.log('Current Time:', currentTime)
                 console.log('Slot Time:', slotTime)
                 console.log('Time Difference (ms):', timeDifference)
                 console.log('Grace Period (ms):', gracePeriod)
